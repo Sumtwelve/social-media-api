@@ -24,4 +24,8 @@ const userSchema = new Schema(
         thoughts: [thoughtSchema],
         friends: [userSchema]
     }
-)
+);
+
+const User = model('user', userSchema);
+
+module.exports = User;
