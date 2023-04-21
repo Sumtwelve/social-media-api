@@ -13,7 +13,13 @@
     "type": "git",
     "url": "git+https://github.com/Sumtwelve/social-network-api.git"
   },
-  "keywords": ["social media", "express", "mongodb", "mongoose", "api"],
+  "keywords": [
+    "social media",
+    "express",
+    "mongodb",
+    "mongoose",
+    "api"
+  ],
   "author": "Noah Nielsen",
   "license": "MIT",
   "bugs": {
@@ -21,6 +27,7 @@
   },
   "homepage": "https://github.com/Sumtwelve/social-network-api#readme",
   "dependencies": {
+    "dayjs": "^1.11.7",
     "express": "^4.18.2",
     "mongoose": "^7.0.4"
   },

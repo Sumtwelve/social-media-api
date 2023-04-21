@@ -1,27 +1,43 @@
 const { Schema, model } = require('mongoose');
-const userSchema = require('./Thought');
+const reactionSchema = require('./Reaction');
 
-const userSchema = new Schema(
+// dayjs imports because I prefer dayjs to Date
+const dayjs = require('dayjs');
+
+const thoughtSchema = new Schema(
     {
-        username: {
+        thoughtText: {
             type: String,
             required: true,
-            max_length: 30,
-            unique: true,
-            trim: true   
+            min: [1, 'Minimum 1 character required to save a thought'],
+            max: [280, '280 character limit exceeded']
         },
-        email: {
-            type: String,
-            required: true,
-            unique: true,
-            trim: true,
-            validate: {
-                validator: function(v) {
-                    return /^[\w.+-]+@[\w.+-]+\.[\w.-]+$/.test(v);
-                }
+        createdAt: {
+            type: Date,
+            default: () => dayjs().toDate(),
+            get: (date) => {
+                if (date) return dayjs(date).format("dddd, MMM D, YYYY, h:mm A");
+                // example return: `Friday, Apr 21, 2023, 3:22 PM`
             }
         },
-        thoughts: [thoughtSchema],
-        friends: [userSchema]
+        username: {
+            type: String,
+            required: true
+        },
+        reactions: [reactionSchema]
+    },
+    {
+        toJSON: {
+            virtuals: true
+        },
+        id: false
     }
-)
+);
+
+thoughtSchema.virtual('reactionCount').get(function() {
+    return this.reactions.length;
+})
+
+const Thought = model('thought', thoughtSchema);
+
+module.exports = Thought;

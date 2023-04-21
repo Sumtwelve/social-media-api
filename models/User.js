@@ -16,15 +16,33 @@ const userSchema = new Schema(
             unique: true,
             trim: true,
             validate: {
-                validator: function(v) {
-                    return /^[\w.+-]+@[\w.+-]+\.[\w.-]+$/.test(v);
+                validator: (email) => {
+                    // regex to detect valid email
+                    // this regex has not been rigorously tested
+                    return /^[\w.+-]+@[\w.+-]+\.[\w.-]+$/.test(email);
                 }
             }
         },
-        thoughts: [thoughtSchema],
-        friends: [userSchema]
+        thoughts: {
+            type: Schema.Types.ObjectId,
+            ref: 'Thought'
+        },
+        friends: {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    },
+    {
+        toJSON: {
+            virtuals: true
+        },
+        id: false
     }
 );
+
+thoughtSchema.virtual('friendCount').get(function() {
+    return this.friends.length;
+})
 
 const User = model('user', userSchema);
 
