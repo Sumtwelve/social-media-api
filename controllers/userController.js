@@ -1,9 +1,7 @@
-//TODO: Bonus: remove a user's associated thoughts when deleted
-
 const { User, Thought } = require('../models');
 
 module.exports = {
-    // /api/users/
+    // api/users/
     // GET all users
     async getAllUsers(req, res) {
         try {
@@ -19,7 +17,7 @@ module.exports = {
         }
     },
 
-    // /api/users/:userId
+    // api/users/:userId
     // GET a single user
     async getOneUser(req, res) {
         try {
@@ -35,7 +33,23 @@ module.exports = {
         }
     },
 
-    // /api/users/
+    // api/users/:userId/thoughts
+    // GET all Thoughts for one User
+    async getUserThoughts(req, res) {
+        try {
+            const thoughts = await Thought.find({ userId: req.params.userId });
+            if (!thoughts) {
+                return res.status(404).json({ message: "No thoughts found for this user" });
+            }
+
+            return res.status(200).json(thoughts);
+
+        } catch (err) {
+            return res.status(500).json(err);
+        }
+    },
+
+    // api/users/
     // POST new user
     async createUser(req, res) {
         try {
@@ -46,7 +60,7 @@ module.exports = {
         }
     },
     
-    // /api/users/:userId
+    // api/users/:userId
     // PUT to update existing user
     async updateUser(req, res) {
         try {
@@ -64,7 +78,7 @@ module.exports = {
         }
     },
 
-    // /api/users/:userId
+    // api/users/:userId
     // DELETE a user and all thoughts associated with them
     async deleteUser(req, res) {
         try {
@@ -85,7 +99,7 @@ module.exports = {
         }
     },
 
-    // /api/users/:userId/friends/:friendId
+    // api/users/:userId/friends/:friendId
     // POST to add a user to a user's friend list
     async addFriend(req, res) {
         try {
@@ -106,7 +120,7 @@ module.exports = {
         }
     },
 
-    // /api/users/:userId/friends/:friendId
+    // api/users/:userId/friends/:friendId
     // DELETE to remove a friend from a user's friend list
     async removeFriend(req, res) {
         try {
