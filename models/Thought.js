@@ -26,7 +26,8 @@ const thoughtSchema = new Schema(
         },
         userId: {
             type: Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'User',
+            required: true
         },
         reactions: [reactionSchema]
     },
@@ -38,6 +39,7 @@ const thoughtSchema = new Schema(
     }
 );
 
+// virtual to get the number of Reactions on a Thought
 thoughtSchema.virtual('reactionCount').get(function() {
     return this.reactions.length;
 })

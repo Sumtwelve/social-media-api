@@ -9,10 +9,9 @@ module.exports = {
             if (!users) {
                 return res.status(404).json({ message: "No users found in the database :(" });
             }
-
             return res.status(200).json(users);
-
         } catch (err) {
+            console.error(err);
             return res.status(500).json(err);
         }
     },
@@ -23,12 +22,11 @@ module.exports = {
         try {
             const user = await User.findOne({ _id: req.params.userId });
             if (!user) {
-                return res.status(404).json({ message: "No user with that ID found" });
+                return res.status(404).json({ message: "No user found with that ID" });
             }
-
             return res.status(200).json(user);
-
         } catch (err) {
+            console.error(err);
             return res.status(500).json(err);
         }
     },
@@ -41,27 +39,27 @@ module.exports = {
             if (!thoughts) {
                 return res.status(404).json({ message: "No thoughts found for this user" });
             }
-
             return res.status(200).json(thoughts);
-
         } catch (err) {
+            console.error(err);
             return res.status(500).json(err);
         }
     },
 
     // api/users/
-    // POST new user
+    // POST route to create new User
     async createUser(req, res) {
         try {
             const user = await User.create(req.body);
-            res.status(200).json(user);
+            return res.status(200).json(user);
         } catch (err) {
-            res.status(500).json(err);
+            console.error(err);
+            return res.status(500).json(err);
         }
     },
     
     // api/users/:userId
-    // PUT to update existing user
+    // PUT route to update existing User
     async updateUser(req, res) {
         try {
             const user = await User.findOneAndUpdate(
@@ -72,9 +70,10 @@ module.exports = {
             if (!user) {
                 return res.status(404).json({ message: "No user found with that ID" });
             }
-            res.status(200).json(user);
+            return res.status(200).json(user);
         } catch (err) {
-            res.status(500).json(err);
+            console.error(err);
+            return res.status(500).json(err);
         }
     },
 
@@ -82,20 +81,23 @@ module.exports = {
     // DELETE a user and all thoughts associated with them
     async deleteUser(req, res) {
         try {
+            // Delete the User
             const user = await User.findOneAndRemove({ _id: req.params.userId });
             if (!user) {
                 return res.status(404).json({ message: "No user found with that ID" });
             }
 
+            // Now delete the Thoughts
             const thoughts = await Thought.deleteMany({ _id: { $in: user.thoughts } });
             if (!thoughts) {
                 return res.status(404).json({ message: "User deleted, but no thoughts found to delete." });
             }
 
-            res.status(200).json(user);
+            return res.status(200).json(user);
 
         } catch (err) {
-            res.status(500).json(err);
+            console.error(err);
+            return res.status(500).json(err);
         }
     },
 
@@ -103,7 +105,7 @@ module.exports = {
     // POST to add a user to a user's friend list
     async addFriend(req, res) {
         try {
-            // find and update the user
+            // find and update the User's `friends` field
             const user = await User.findOneAndUpdate(
                 { _id: req.params.userId },
                 { $addToSet: { friends: { _id: req.params.friendId } } },
@@ -112,11 +114,10 @@ module.exports = {
             if (!user) {
                 return res.status(404).json({ message: "No user found with that ID" });
             }
-
-            res.status(200).json(user);
-
+            return res.status(200).json(user);
         } catch (err) {
-            res.status(500).json(err);
+            console.error(err);
+            return res.status(500).json(err);
         }
     },
 
@@ -133,9 +134,10 @@ module.exports = {
             if (!user) {
                 return res.status(404).json({ message: "No user found with that ID" });
             }
-            res.status(200).json(user);
+            return res.status(200).json(user);
         } catch (err) {
-            res.status(500).json(err);
+            console.error(err);
+            return res.status(500).json(err);
         }
     }
 }

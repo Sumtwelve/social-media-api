@@ -44,6 +44,7 @@ const userSchema = new Schema(
     }
 );
 
+// virtual to get the number of friends a User has
 thoughtSchema.virtual('friendCount').get(function() {
     return this.friends.length;
 })
