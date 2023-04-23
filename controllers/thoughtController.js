@@ -1,4 +1,4 @@
-const { User, Thought, Reaction } = require('../models');
+const { User, Thought } = require('../models');
 
 module.exports = {
     // api/thoughts/
@@ -106,7 +106,7 @@ module.exports = {
 
     // api/thoughts/:thoughtId/reactions/:reactionId
     // DELETE a Reaction from a Thought
-    async deleteReaction(req, res) {
+    async removeReaction(req, res) {
         try {
             const thought = await Thought.findOneAndUpdate(
                 { _id: req.params.thoughtId },
