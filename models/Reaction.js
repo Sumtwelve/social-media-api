@@ -1,9 +1,9 @@
-const { Schema, Types } = require('mongoose');
+const { Schema } = require('mongoose');
 const dayjs = require('dayjs');
 
 const reactionSchema = new Schema(
     {
-        reactionBody: {
+        reactionText: {
             type: String,
             required: true,
             max: [280, 'Maximum 280 character limit exceeded']
