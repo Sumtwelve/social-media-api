@@ -24,6 +24,7 @@ module.exports = {
             if (!thought) {
                 return res.status(404).json({ message: "No thought found with that ID" });
             }
+            return res.status(200).json(thought);
         } catch (err) {
             console.error(err);
             return res.status(500).json(err);
@@ -37,7 +38,7 @@ module.exports = {
             const newThought = await Thought.create(req.body);
 
             const user = await User.findOneAndUpdate(
-                { _id: req.body.userId },
+                { username: req.body.username },
                 { $push: { thoughts: newThought } },
                 { new: true }
             );
