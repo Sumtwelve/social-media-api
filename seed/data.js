@@ -1,3 +1,5 @@
+const { Types } = require('mongoose');
+
 const usernames = [
     "Andrea",
     "Hasgow",
@@ -71,8 +73,6 @@ const emailFragments = [
     "zombie",
     "purple",
     "great",
-    "555",
-    "777",
     "x"
 ];
 
@@ -122,22 +122,75 @@ const reactions = [
     "You're my favorite person in the world for saying that"
 ];
 
-module.exports = {
-    /**
-     * Pick a random item from a non-empty array.
-     * @param {Array} arr The array to pick from.
-     * @returns {any} A random element from the given array.
+
+/**
+ * Pick a random item from a non-empty array.
+ * @param {Array} arr The array to pick from.
+ * @returns {any} A random element from the given array.
+ */
+function getRandomArrItem(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+/**
+     * Returns any number of reactions picked randomly form a predefined sample set.
+     * @param {number} num The number of random reactions to return.
+     * @returns {string | string[]} A single string (or an array of strings) to use as the body of the Reaction.
      */
-    getRandomArrItem(arr) {
-        return arr[Math.floor(Math.random() * arr.length)];
+function getRandomReactions(num) {
+    if (num > 1) {
+        let reactionObjects = [];
+        for (let i = 0; i < num; i++) {
+            reactionObjects.push(
+                {
+                    reactionText: getRandomArrItem(reactions),
+                    username: getRandomNames(1)
+                }
+            );
+        }
+        return reactionObjects;
+    }
+    return getRandomArrItem(reactions);
+}
+
+module.exports = {
+
+    /**
+     * Creates a specified number of Mongoose ObjectIds.
+     * @param {number} num The number of ObjectIds to get back.
+     * @returns {Mongoose.Types.ObjectId | Mongoose.Types.ObjectId[]} One ObjectId (or an array of ObjectIds).
+     */
+    getObjectIds(num) {
+        if (num > 1) {
+            let objectIds = [];
+            for (let i = 0; i < num; i++) {
+                objectIds.push(new Types.ObjectId());
+            }
+            return objectIds;
+        }
+        return new Types.ObjectId();
     },
 
     /**
      * Returns a random full name assembled from a predefined sample set.
-     * @returns {String} A two-word full name.
+     * @param {number} num The number of random usernames to return.
+     * @returns {string | string[]} One username (or an array of usernames if num > 1).
      */
-    getRandomName() {
-        return `${getRandomArrItem(usernames)} ${getRandomArrItem(usernames)}`;
+    getRandomNames(num) {
+        if (num > 1) {
+            let names = [];
+            for (let i = 0; i < num; i++) {
+                // example output: 'RussellLee867'
+                names.push(
+                    {
+                        _id: () => new Types.ObjectId(),
+                        username: `${getRandomArrItem(usernames)}${getRandomArrItem(usernames)}${Math.floor(Math.random() * 999)}`,
+                    }
+                );
+            }
+            return names;
+        }
+        return `${getRandomArrItem(usernames)}${getRandomArrItem(usernames)}${Math.floor(Math.random() * 999)}`;
     },
 
     /**
@@ -145,35 +198,30 @@ module.exports = {
      * @returns {String} A full Gmail address.
      */
     getRandomEmail() {
-        return `${getRandomArrItem(emailFragments)}-${getRandomArrItem(emailFragments)}@gmail.com`
+        // example output: 'great-ninja429@gmail.com'
+        return `${getRandomArrItem(emailFragments)}-${getRandomArrItem(emailFragments)}${Math.floor(Math.random() * 999)}@gmail.com`;
     },
 
     /**
      * Assembles an array of thoughts picked randomly from a predefined sample set.
-     * @param {Number} num The number of random thoughts to gather.
-     * @returns {Array<String>} An array of thought bodies (does not return a complete Schema-complying Thought object).
+     * @param {number} numThoughts The number of random thoughts to return.
+     * @param {number} numReactions The number of random Reaction texts to generate on the thought.
+     * @returns {String | String[]} A single string (or an array of strings if num > 1) to use as the body of the Thought.
      */
-    getRandomThoughts(num) {
-        const results = [];
-        for (let i = 0; i < num; i++) {
-            results.push({
-                thoughtText: getRandomArrItem(thoughts),
-                username: getRandomArrItem(usernames)
-            });
+    getRandomThoughts(numThoughts, numReactions) {
+        if (numThoughts > 1) {
+            let thoughtStrings = [];
+            for (let i = 0; i < numThoughts; i++) {
+                thoughtStrings.push({
+                    thoughtText: getRandomArrItem(thoughts),
+                    reactions: getRandomReactions(3)
+                });
+            }
+            return thoughtStrings;
         }
-        return results;
-    },
-
-    /**
-     * Assembles an array of reaction bodies picked randomly form a predefined sample set.
-     * @param {Number} num The number of random reactions to gather.
-     * @returns {Array<String>} An array of strings to iteratively inject when seeding many reactions into the database.
-     */
-    getRandomReactions(num) {
-        const results = [];
-        for (let i = 0; i < num; i++) {
-            results.push(getRandomArrItem(reactions));
+        return {
+            thoughtText: getRandomArrItem(thoughts),
+            reactions: getRandomReactions(3)
         }
-        return results;
     }
 };

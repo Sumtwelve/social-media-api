@@ -1,10 +1,11 @@
+const { Types } = require('mongoose');
 const connection = require('../config/connection');
 const { User, Thought, Reaction } = require('../models');
 const {
-    getRandomName,
+    getRandomNames,
     getRandomEmail,
     getRandomThoughts,
-    getRandomReactions
+    getObjectIds
 } = require('./data');
 
 connection.on('error', (err) => console.error(err));
@@ -20,18 +21,43 @@ connection.once('open', async () => {
 
     // An array to hold the Users we will be seeding
     const users = [];
+    const thoughts = [];
 
-
-
-    // Create 10 example users
-    for (let i = 0; i < 10; i++) {
+    // Create 10 example Users, each with 3 Thoughts and 2 friends
+    for (let u = 0; u < 10; u++) {
         // create User
-        users.push({
-            username: getRandomName,
-            email: getRandomEmail
-        })
-        // create Reactions (2 per Thought)
-        const reactions = getRandomReactions(2);
-        // create Thoughts, add Reactions to them
+        let newUser = {
+            username: getRandomNames(1),
+            email: getRandomEmail(),
+            thoughts: getObjectIds(3),
+            friends: getObjectIds(2)
+        };
+
+        // Build our users array
+        users.push(newUser);
+
+        // Create 3 Thoughts, populate with 2 random Reactions
+        
+
+        // // Seed 5 friends
+        // for (let f = 0; f < 5; f++) {
+        //     let newFriend = {
+        //         username: getRandomName(),
+        //         email: getRandomEmail(),
+        //         thoughts: [],
+        //         friends: []
+        //     };
+        //     // Place new friend into User
+        //     newUser.friends.push(newFriend);
+        // }
+
     }
-})
+
+    // 
+
+    await User.collection.insertMany(users);
+
+    console.table(users);
+    console.info("Seeding complete!")
+    process.exit(0);
+});
