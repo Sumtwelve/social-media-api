@@ -9,6 +9,7 @@ module.exports = {
             if (!thoughts) {
                 return res.status(404).json({ message: "No thought in the database :(" });
             }
+            console.log("Retrieved data for all thoughts.");
             return res.status(200).json(thoughts);
         } catch (err) {
             console.error(err);
@@ -24,6 +25,7 @@ module.exports = {
             if (!thought) {
                 return res.status(404).json({ message: "No thought found with that ID" });
             }
+            console.log(`Retrieved data for thought ${thought._id}`);
             return res.status(200).json(thought);
         } catch (err) {
             console.error(err);
@@ -45,6 +47,7 @@ module.exports = {
             if (!user) {
                 return res.status(404).json({ message: "No user found with that ID" });
             }
+            console.log(`Created new thought ${newThought._id} for user ${user._id}`);
             return res.status(200).json(newThought);
         } catch (err) {
             console.error(err);
@@ -64,6 +67,7 @@ module.exports = {
             if (!thought) {
                 return res.status(404).json({ message: "No user found with that ID" });
             }
+            console.log(`Updated thought ${thought._id}`);
             return res.status(200).json(thought);
         } catch (err) {
             console.error(err);
@@ -79,6 +83,7 @@ module.exports = {
             if (!thought) {
                 return res.status(404).json({ message: "No thought found with that ID" });
             }
+            console.log(`Deleted thought ${thought._id}`);
             return res.status(200).json(thought);
         } catch (err) {
             console.error(err);
@@ -98,6 +103,7 @@ module.exports = {
             if (!thought) {
                 return res.status(404).json({ message: "No thought found with that ID" });
             }
+            console.log(`Added reaction to thought ${thought._id}`);
             return res.status(200).json(thought);
         } catch (err) {
             console.error(err);
@@ -117,6 +123,7 @@ module.exports = {
             if (!thought) {
                 return res.status(404).json({ message: "No thought found with that ID" });
             }
+            console.log(`Deleted reaction ${req.params.reactionId}`);
             return res.status(200).json(thought);
         } catch (err) {
             console.error(err);
