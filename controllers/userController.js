@@ -121,6 +121,11 @@ module.exports = {
     // POST route to add a user to a user's friend list
     async addFriend(req, res) {
         try {
+            // make sure friendId matches an existing User
+            const friend = await User.findById(req.params.friendId);
+            if (!friend) {
+                return res.status(404).json({ message: "No user found with the given friendId" });
+            }
             // find and update the User's `friends` field
             const user = await User.findOneAndUpdate(
                 { _id: req.params.userId },
@@ -128,7 +133,7 @@ module.exports = {
                 { new: true }
             );
             if (!user) {
-                return res.status(404).json({ message: "No user found with that ID" });
+                return res.status(404).json({ message: "No user found with the given userId" });
             }
             console.log(`Added friend ${req.params.friendId} to user ${user._id}'s friend list.`);
             return res.status(200).json(user);
@@ -142,10 +147,15 @@ module.exports = {
     // DELETE route to remove a friend from a user's friend list
     async removeFriend(req, res) {
         try {
-            // Find the user
+            // make sure friendId matches an existing User
+            const friend = await User.findById(req.params.friendId);
+            if (!friend) {
+                return res.status(404).json({ message: "No user found with the given friendId" });
+            }
+            // Find and update the user
             const user = await User.findOneAndUpdate(
                 { _id: req.params.userId },
-                { $pull: { friends: { _id: req.params.friendId } } },
+                { $pull: { friends: req.params.friendId } },
                 { new: true }
             );
             if (!user) {
