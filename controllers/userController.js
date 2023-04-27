@@ -30,7 +30,11 @@ module.exports = {
             return res.status(200).json(user);
         } catch (err) {
             console.error(err);
-            return res.status(500).json(err);
+            if (err.name === "CastError") {
+                return res.status(400).json({ message: "Error: Invalid userId" });
+            } else {
+                return res.status(500).json(err);
+            }
         }
     },
 
@@ -56,7 +60,11 @@ module.exports = {
             return res.status(200).json(thoughts);
         } catch (err) {
             console.error(err);
-            return res.status(500).json(err);
+            if (err.name === "CastError") {
+                return res.status(400).json({ message: "Error: Invalid userId" });
+            } else {
+                return res.status(500).json(err);
+            }
         }
     },
 
@@ -89,7 +97,11 @@ module.exports = {
             return res.status(200).json(user);
         } catch (err) {
             console.error(err);
-            return res.status(500).json(err);
+            if (err.name === "CastError") {
+                return res.status(400).json({ message: "Error: Invalid userId" });
+            } else {
+                return res.status(500).json(err);
+            }
         }
     },
 
@@ -113,7 +125,11 @@ module.exports = {
 
         } catch (err) {
             console.error(err);
-            return res.status(500).json(err);
+            if (err.name === "CastError") {
+                return res.status(400).json({ message: "Error: Invalid userId" });
+            } else {
+                return res.status(500).json(err);
+            }
         }
     },
 
@@ -139,7 +155,11 @@ module.exports = {
             return res.status(200).json(user);
         } catch (err) {
             console.error(err);
-            return res.status(500).json(err);
+            if (err.name === "CastError") {
+                return res.status(400).json({ message: "Error: Invalid userId or friendId" });
+            } else {
+                return res.status(500).json(err);
+            }
         }
     },
 
@@ -165,7 +185,11 @@ module.exports = {
             return res.status(200).json(user);
         } catch (err) {
             console.error(err);
-            return res.status(500).json(err);
+            if (err.name === "CastError") {
+                return res.status(400).json({ message: "Error: Invalid userId or friendId" });
+            } else {
+                return res.status(500).json(err);
+            }
         }
     }
 }
