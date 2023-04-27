@@ -9,6 +9,7 @@ const reactionSchema = new Schema(
         // "rename" the classic `_id` field to `reactionId` for this schema.
         reactionId: {
             type: Schema.Types.ObjectId,
+            required: true,
             default: () => new Types.ObjectId()
         },
         reactionText: {
