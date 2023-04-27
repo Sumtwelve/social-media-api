@@ -21,9 +21,11 @@ connection.once('open', async () => {
 
     // An array to hold the Users we will be seeding
     const users = [];
-    const thoughts = [];
+    //const thoughts = [];
 
     // Create 10 example Users, each with 3 Thoughts and 2 friends
+    // HOW THIS WORKS:
+    // We cannot 
     for (let u = 0; u < 10; u++) {
         // create User
         let newUser = {
@@ -54,6 +56,26 @@ connection.once('open', async () => {
     }
 
     // 
+
+    const thoughts = {
+        _id: getObjectIds(1),
+        thoughtText: "if anyone finds my keys can you pls tell me? thanks",
+        username: getRandomNames(1),
+        reactions: [
+            {
+                reactionText: "wow",
+                username: getRandomNames(1)
+            },
+            {
+                reactionText: "this is not real",
+                username: getRandomNames(1)
+            },
+            {
+                reactionText: "this is a reaction",
+                username: getRandomNames(1)
+            }
+        ]
+    };
 
     await User.collection.insertMany(users);
 

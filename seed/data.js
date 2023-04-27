@@ -143,8 +143,9 @@ function getRandomReactions(num) {
         for (let i = 0; i < num; i++) {
             reactionObjects.push(
                 {
+                    reactionId: new Types.ObjectId(),
                     reactionText: getRandomArrItem(reactions),
-                    username: getRandomNames(1)
+                    username: `${getRandomArrItem(usernames)}${getRandomArrItem(usernames)}${Math.floor(Math.random() * 999)}`
                 }
             );
         }
@@ -172,7 +173,7 @@ module.exports = {
     },
 
     /**
-     * Returns a random full name assembled from a predefined sample set.
+     * Returns a random username.
      * @param {number} num The number of random usernames to return.
      * @returns {string | string[]} One username (or an array of usernames if num > 1).
      */
@@ -180,13 +181,8 @@ module.exports = {
         if (num > 1) {
             let names = [];
             for (let i = 0; i < num; i++) {
-                // example output: 'RussellLee867'
-                names.push(
-                    {
-                        _id: () => new Types.ObjectId(),
-                        username: `${getRandomArrItem(usernames)}${getRandomArrItem(usernames)}${Math.floor(Math.random() * 999)}`,
-                    }
-                );
+                // example output: 'SofiaHarris597'
+                names.push(`${getRandomArrItem(usernames)}${getRandomArrItem(usernames)}${Math.floor(Math.random() * 999)}`);
             }
             return names;
         }
@@ -213,8 +209,10 @@ module.exports = {
             let thoughtStrings = [];
             for (let i = 0; i < numThoughts; i++) {
                 thoughtStrings.push({
+                    _id: new Types.ObjectId(),
                     thoughtText: getRandomArrItem(thoughts),
-                    reactions: getRandomReactions(3)
+                    username: `${getRandomArrItem(emailFragments)}-${getRandomArrItem(emailFragments)}${Math.floor(Math.random() * 999)}@gmail.com`,
+                    reactions: getRandomReactions(numReactions)
                 });
             }
             return thoughtStrings;
