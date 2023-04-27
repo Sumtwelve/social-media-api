@@ -44,15 +44,25 @@ module.exports = {
     // POST route to create new Thought and push it to associated User
     async addThought(req, res) {
         try {
+            // Make sure request body has required field `username`
+            if (!req.body.username) {
+                return res.status(400).json({ message: "Error: Required field 'username' is missing or empty" });
+            }
+            // Query the User collection, make sure req.body.username matches an existing User
+            const userFound = await User.findOne({ username: req.body.username });
+            if (!userFound) {
+                return res.status(404).json({ message: "No user found with that username" });
+            }
+            // If we're here, then we found the user and can now create the Thought from req.body
             const newThought = await Thought.create(req.body);
-
+            // Push the new thought to the associated User's `thoughts` field
             const user = await User.findOneAndUpdate(
                 { username: req.body.username },
                 { $push: { thoughts: newThought } },
                 { new: true }
             );
             if (!user) {
-                return res.status(404).json({ message: "No user found with that ID" });
+                return res.status(404).json({ message: "No user found with that username" });
             }
             console.log(`Created new thought ${newThought._id} for user ${user._id}`);
             return res.status(200).json(newThought);
@@ -125,7 +135,7 @@ module.exports = {
         try {
             // We need `username` to make some queries, so make sure request body has it.
             if (!req.body.username) {
-                return res.status(400).json({ message: "Error: Required field 'username' is missing or empty" })
+                return res.status(400).json({ message: "Error: Required field 'username' is missing or empty" });
             }
             // make sure `username` field matches an existing User
             const user = await User.findOne({ username: req.body.username });
@@ -158,7 +168,7 @@ module.exports = {
         try {
             const thought = await Thought.findOneAndUpdate(
                 { _id: req.params.thoughtId },
-                { $pull: { reactions: { _id: req.params.reactionId } } },
+                { $pull: { reactions: { reactionId: req.params.reactionId } } },
                 { new: true }
             );
             if (!thought) {
