@@ -21,7 +21,7 @@ module.exports = {
     // GET one Thought by its _id
     async getOneThought(req, res) {
         try {
-            const thought = await Thought.find({ _id: req.params.thoughtId });
+            const thought = await Thought.findById(req.params.thoughtId);
             if (!thought) {
                 return res.status(404).json({ message: "No thought found with that ID" });
             }
