@@ -17,14 +17,17 @@ connection.once('open', async () => {
         {
             _id: new Types.ObjectId(),
             thoughtText: "User1's first thought!",
+            createdAt: Date.now(),
             username: 'user1',
             reactions: [
                 {
                     reactionText: "User2's reaction",
+                    createdAt: Date.now(),
                     username: 'user2'
                 },
                 {
                     reactionText: "User3's reaction",
+                    createdAt: Date.now(),
                     username: 'user3'
                 }
             ]
@@ -32,14 +35,17 @@ connection.once('open', async () => {
         {
             _id: new Types.ObjectId(),
             thoughtText: "User2's first thought!",
+            createdAt: Date.now(),
             username: 'user2',
             reactions: [
                 {
                     reactionText: "User1's reaction",
+                    createdAt: Date.now(),
                     username: 'user1'
                 },
                 {
                     reactionText: "User3's reaction",
+                    createdAt: Date.now(),
                     username: 'user3'
                 }
             ]
@@ -47,14 +53,17 @@ connection.once('open', async () => {
         {
             _id: new Types.ObjectId(),
             thoughtText: "User3's first thought!",
+            createdAt: Date.now(),
             username: 'user3',
             reactions: [
                 {
                     reactionText: "User1's reaction",
+                    createdAt: Date.now(),
                     username: 'user1'
                 },
                 {
                     reactionText: "User2's reaction",
+                    createdAt: Date.now(),
                     username: 'user2'
                 }
             ]

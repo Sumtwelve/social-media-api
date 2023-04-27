@@ -37,6 +37,7 @@ const userSchema = new Schema(
     },
     {
         toJSON: {
+            getters: true,
             virtuals: true
         },
         // Below was added for the "get all users" route, which uses Mongoose's

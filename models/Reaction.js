@@ -22,18 +22,23 @@ const reactionSchema = new Schema(
         },
         createdAt: {
             type: Date,
-            default: () => dayjs().toDate(),
-            get: (date) => {
-                if (date) return dayjs(date).format("dddd, MMM D, YYYY, h:mm A");
-                // example return: `Friday, Apr 21, 2023, 3:22 PM`
-            }
+            required: true,
+            default: Date.now,
+            get: formatDate
         }
     },
     {
+        toJSON: {
+            getters: true
+        },
         // Omit these fields from the schema, use `reactionId` field instead.
         _id: false,
         id: false
     }
 );
+
+function formatDate(date) {
+    if (date) return dayjs(date).format("dddd, MMM D, YYYY, h:mm A");
+}
 
 module.exports = reactionSchema;
