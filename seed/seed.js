@@ -7,12 +7,13 @@ connection.on('error', (err) => console.error(err));
 connection.once('open', async () => {
     console.log("Connected to database");
     
-    // Delete existing Users
+    // Delete all existing Users
     await User.deleteMany({});
 
-    // Delete existing Thoughts
+    // Delete all existing Thoughts
     await Thought.deleteMany({});
 
+    // We create the thoughts first so we can insert their ObjectIds when creating the users
     const thoughts = [
         {
             _id: new Types.ObjectId(),
