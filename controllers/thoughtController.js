@@ -30,7 +30,10 @@ module.exports = {
         } catch (err) {
             console.error(err);
             if (err.name === "CastError") {
-                return res.status(400).json({ message: "Error: Invalid thoughtId" });
+                // If we're here, that most likely means an invalid thoughtId was passed
+                // into req.params. Mongoose was unable to cast it as an ObjectId, thus
+                // the name "CastError".
+                return res.status(400).json({ message: "CastError: Invalid thoughtId" });
             } else {
                 return res.status(500).json(err);
             }
@@ -79,7 +82,7 @@ module.exports = {
         } catch (err) {
             console.error(err);
             if (err.name === "CastError") {
-                return res.status(400).json({ message: "Error: Invalid thoughtId" });
+                return res.status(400).json({ message: "CastError: Invalid thoughtId" });
             } else {
                 return res.status(500).json(err);
             }
@@ -109,7 +112,7 @@ module.exports = {
         } catch (err) {
             console.error(err);
             if (err.name === "CastError") {
-                return res.status(400).json({ message: "Error: Invalid thoughtId" });
+                return res.status(400).json({ message: "CastError: Invalid thoughtId" });
             } else {
                 return res.status(500).json(err);
             }
@@ -142,7 +145,7 @@ module.exports = {
         } catch (err) {
             console.error(err);
             if (err.name === "CastError") {
-                return res.status(400).json({ message: "Error: Invalid thoughtId" });
+                return res.status(400).json({ message: "CastError: Invalid thoughtId" });
             } else {
                 return res.status(500).json(err);
             }
@@ -166,10 +169,7 @@ module.exports = {
         } catch (err) {
             console.error(err);
             if (err.name === "CastError") {
-                // If we're here, that most likely means an invalid thoughtId was passed
-                // into req.params. Mongoose was unable to cast it as an ObjectId, thus
-                // the name "CastError".
-                return res.status(400).json({ message: "Error: Invalid thoughtId" });
+                return res.status(400).json({ message: "CastError: Invalid thoughtId" });
             } else {
                 return res.status(500).json(err);
             }

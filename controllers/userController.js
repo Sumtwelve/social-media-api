@@ -31,7 +31,10 @@ module.exports = {
         } catch (err) {
             console.error(err);
             if (err.name === "CastError") {
-                return res.status(400).json({ message: "Error: Invalid userId" });
+                // If we're here, that most likely means an invalid userId was passed
+                // into req.params. Mongoose was unable to cast it as an ObjectId, thus
+                // the name "CastError".
+                return res.status(400).json({ message: "CastError: Invalid userId" });
             } else {
                 return res.status(500).json(err);
             }
@@ -61,7 +64,7 @@ module.exports = {
         } catch (err) {
             console.error(err);
             if (err.name === "CastError") {
-                return res.status(400).json({ message: "Error: Invalid userId" });
+                return res.status(400).json({ message: "CastError: Invalid userId" });
             } else {
                 return res.status(500).json(err);
             }
@@ -98,7 +101,7 @@ module.exports = {
         } catch (err) {
             console.error(err);
             if (err.name === "CastError") {
-                return res.status(400).json({ message: "Error: Invalid userId" });
+                return res.status(400).json({ message: "CastError: Invalid userId" });
             } else {
                 return res.status(500).json(err);
             }
@@ -126,7 +129,7 @@ module.exports = {
         } catch (err) {
             console.error(err);
             if (err.name === "CastError") {
-                return res.status(400).json({ message: "Error: Invalid userId" });
+                return res.status(400).json({ message: "CastError: Invalid userId" });
             } else {
                 return res.status(500).json(err);
             }
@@ -156,7 +159,7 @@ module.exports = {
         } catch (err) {
             console.error(err);
             if (err.name === "CastError") {
-                return res.status(400).json({ message: "Error: Invalid userId or friendId" });
+                return res.status(400).json({ message: "CastError: Invalid userId or friendId" });
             } else {
                 return res.status(500).json(err);
             }
@@ -186,7 +189,7 @@ module.exports = {
         } catch (err) {
             console.error(err);
             if (err.name === "CastError") {
-                return res.status(400).json({ message: "Error: Invalid userId or friendId" });
+                return res.status(400).json({ message: "CastError: Invalid userId or friendId" });
             } else {
                 return res.status(500).json(err);
             }
