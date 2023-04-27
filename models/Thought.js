@@ -14,32 +14,31 @@ const thoughtSchema = new Schema(
         },
         createdAt: {
             type: Date,
-            default: () => dayjs().toDate(),
-            get: (date) => {
-                if (date) return dayjs(date).format("dddd, MMM D, YYYY, h:mm A");
-                // example return: `Friday, Apr 21, 2023, 3:22 PM`
-            }
+            required: true,
+            default: Date.now,
+            get: formatDate
         },
         username: {
             type: String,
-            required: true
-        },
-        userId: {
-            type: Schema.Types.ObjectId,
-            ref: 'User',
             required: true
         },
         reactions: [reactionSchema]
     },
     {
         toJSON: {
+            getters: true,
             virtuals: true
         },
         id: false
     }
 );
 
-// virtual to get the number of Reactions on a Thought
+function formatDate(date) {
+    if (date) return dayjs(date).format("dddd, MMM D, YYYY, h:mm A");
+}
+
+// Get the number of Reactions on each Thought. Used for get routes.
+// Note that this virtual will only run on the route `/api/thoughts/`.
 thoughtSchema.virtual('reactionCount').get(function() {
     return this.reactions.length;
 })
