@@ -1,3 +1,5 @@
+![a small badge indicating the MIT license](https://img.shields.io/badge/license-MIT-blue)
+
 # API Demonstration: Social Media Platform
 
 This project is simply a REST API for a prototype social media website. With all of these back-end Express routes set up, all this needs is a front end and it will work as a very basic social media platform.
