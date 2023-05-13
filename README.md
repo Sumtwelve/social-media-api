@@ -20,7 +20,7 @@ If you don't want to watch the video, here are some written instructions:
 
 ## Structure
 
-Using MongoDB, the app uses three data structures: Users, Thoughts, and Reactions. A user can post a Thought, which is just a piece of text anyone on the site can read. Other users can add Reactions to that thought, which are like comments. Users can also add other users to their friend lists.
+The app uses three data structures, all managed with MongoDB: Users, Thoughts, and Reactions. A user can post a Thought, which is just a piece of text anyone on the site can read. Other users can add Reactions to that thought, which are like comments. Users can also add other users to their friend lists.
 
 ## Routes
 
